@@ -1,0 +1,36 @@
+name: Train ML model
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  train:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies (if present)
+        run: |
+          if [ -f requirements.txt ]; then python -m pip install --upgrade pip && pip install -r requirements.txt; fi
+
+      - name: Run preprocessing and training
+        shell: bash
+        run: |
+          echo "Running preprocessing and training if scripts present"
+          if [ -f preprocessing_eda.py ]; then
+            python preprocessing_eda.py || exit 1
+          else
+            echo "preprocessing_eda.py not found"
+          fi
+          if [ -f modelling.py ]; then
+            python modelling.py || exit 1
+          else
+            echo "modelling.py not found"
+          fi

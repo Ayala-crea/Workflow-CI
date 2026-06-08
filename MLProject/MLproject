@@ -1,0 +1,16 @@
+name: ispu_dki_prediction
+
+conda_env: conda.yaml
+
+entry_points:
+  main:
+    command: "python ../preprocessing_eda.py && python ../modelling.py"
+
+  preprocessing:
+    command: "python ../preprocessing_eda.py"
+
+  train:
+    command: "python ../modelling.py"
+
+  tuning:
+    command: "python ../modelling_tuning.py"
