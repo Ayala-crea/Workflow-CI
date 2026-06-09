@@ -4,13 +4,13 @@ conda_env: conda.yaml
 
 entry_points:
   main:
-    command: "python ../preprocessing_eda.py && python ../modelling.py"
+    command: "python ./preprocessing_eda.py && python ./modelling.py"
 
   preprocessing:
-    command: "python ../preprocessing_eda.py"
+    command: "python ./preprocessing_eda.py"
 
   train:
-    command: "python ../modelling.py"
+    command: "python ./modelling.py"
 
   tuning:
-    command: "python ../modelling_tuning.py"
+    command: "python ./modelling_tuning.py"
