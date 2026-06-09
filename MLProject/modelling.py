@@ -20,7 +20,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
 CURRENT_DIR = Path(__file__).resolve().parent
-DATA_DIR = CURRENT_DIR / "namadataset_preprocessing"
+DATA_DIR = CURRENT_DIR / "dataset_preprocessing"
 MODEL_DIR = CURRENT_DIR / "model"
 MLRUNS_DIR = Path(__file__).resolve().parents[1].parent / "mlruns"
 EXPERIMENT_NAME = "ISPU_DKI_Baseline_Autolog"
