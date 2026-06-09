@@ -8,29 +8,37 @@ on:
 jobs:
   train:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.11'
 
-      - name: Install dependencies (if present)
+      - name: Install MLflow and dependencies
         run: |
-          if [ -f requirements.txt ]; then python -m pip install --upgrade pip && pip install -r requirements.txt; fi
+          python -m pip install --upgrade pip
+          pip install mlflow==2.15.1 pandas==2.2.2 numpy==1.26.4 scikit-learn==1.5.1 matplotlib==3.9.1 joblib==1.4.2
 
-      - name: Run preprocessing and training
+      - name: Retrain model with MLflow Project
         shell: bash
         run: |
-          echo "Running preprocessing and training if scripts present"
-          if [ -f preprocessing_eda.py ]; then
-            python preprocessing_eda.py || exit 1
-          else
-            echo "preprocessing_eda.py not found"
-          fi
-          if [ -f modelling.py ]; then
-            python modelling.py || exit 1
-          else
-            echo "modelling.py not found"
-          fi
+          echo "Running model retraining using MLflow Project"
+          mlflow run MLProject -e main --env-manager=local
+
+      - name: Upload MLflow runs artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: mlruns
+          path: mlruns/
+          if-no-files-found: warn
+
+      - name: Upload trained model artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: trained-model
+          path: model/
+          if-no-files-found: warn
